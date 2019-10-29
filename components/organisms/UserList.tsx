@@ -9,9 +9,9 @@ const UserList = () => {
         <Header as="h4" attached="top" block>
           Select user
         </Header>
-        <UserListRow />
-        <UserListRow />
-        <UserListRow />
+        <UserListRow id={0} />
+        <UserListRow id={1} />
+        <UserListRow id={2} />
       </Segment.Group>
     </Container>
   );
