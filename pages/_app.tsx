@@ -2,6 +2,12 @@ import React from "react";
 import App from "next/app";
 import Head from "next/head";
 import { Global, css } from "@emotion/core";
+import styled from "@emotion/styled";
+import { Header } from "semantic-ui-react";
+
+const Padding = styled.div`
+  padding: 3rem;
+`;
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -27,8 +33,10 @@ class MyApp extends App {
             href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
           />
         </Head>
-
-        <Component {...pageProps} />
+        <Padding>
+          <Header as="h3" content="Namubufferi" textAlign="center" />
+          <Component {...pageProps} />
+        </Padding>
       </>
     );
   }
