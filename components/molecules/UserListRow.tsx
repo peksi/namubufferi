@@ -19,7 +19,9 @@ const UserListRow = props => {
                 </Header.Content>
               </Header>
             </Grid.Column>
-            <Grid.Column width={2}>22.22 €</Grid.Column>
+            <Grid.Column width={2} style={{ lineHeight: "36px" }}>
+              22.22 €
+            </Grid.Column>
             <Grid.Column width={2}>
               <Button onClick={() => setOpen(!open)}>Saldo</Button>
             </Grid.Column>
