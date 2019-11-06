@@ -4,6 +4,8 @@ import Head from "next/head";
 import { Global, css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Header } from "semantic-ui-react";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { client } from "../apolloconfig";
 
 const Padding = styled.div`
   padding: 3rem;
@@ -35,7 +37,9 @@ class MyApp extends App {
         </Head>
         <Padding>
           <Header as="h3" content="Namubufferi" textAlign="center" />
-          <Component {...pageProps} />
+          <ApolloProvider client={client}>
+            <Component {...pageProps} />
+          </ApolloProvider>
         </Padding>
       </>
     );
