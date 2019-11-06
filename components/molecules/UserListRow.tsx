@@ -11,16 +11,21 @@ const UserListRow = props => {
       <Segment>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={9}>
+            <Grid.Column width={7}>
               <Header as="h4" image>
                 <Header.Content>
-                  Pekka Lammi
-                  <Header.Subheader>IV14</Header.Subheader>
+                  {props.data.name}
+                  <Header.Subheader>
+                    {props.data.starting_year}
+                  </Header.Subheader>
                 </Header.Content>
               </Header>
             </Grid.Column>
             <Grid.Column width={2} style={{ lineHeight: "36px" }}>
-              22.22 €
+              {props.data.balance}
+            </Grid.Column>
+            <Grid.Column width={2}>
+              <Button onClick={() => setOpen(!open)}>Historia</Button>
             </Grid.Column>
             <Grid.Column width={2}>
               <Button onClick={() => setOpen(!open)}>Saldo</Button>
@@ -31,7 +36,6 @@ const UserListRow = props => {
                   pathname: "/store",
                   query: { id: props.id }
                 }}
-                prefetch
               >
                 <Button primary icon labelPosition="right">
                   Ostoksille
