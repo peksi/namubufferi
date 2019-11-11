@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import AddProduct from "../components/organisms/AddProduct";
 
 const QUERY = gql`
   query GetShopAssortment {
@@ -39,7 +40,9 @@ const Admin = () => {
           <Grid.Column width={"8"}>Kategoriat</Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={"16"}>Lisää tuote</Grid.Column>
+          <Grid.Column width={"16"}>
+            <AddProduct />
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </>
