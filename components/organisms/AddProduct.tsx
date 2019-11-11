@@ -34,7 +34,6 @@ const AddProduct = () => {
   }
 
   const updateCategories = (location: number, data: any) => {
-    console.log("updateCategories");
     setCategories(
       data
         .find(i => i.key === location)
@@ -47,10 +46,10 @@ const AddProduct = () => {
   return (
     <Form loading={loading}>
       <Form.Group>
-        <Form.Input label="Product Name" placeholder="Coca Cola" />
+        <Form.Input label="Nimi" placeholder="Coca Cola" />
         <Form.Select
           control={Select}
-          label="Location"
+          label="Paikka"
           options={locations}
           value={locationValue}
           onChange={(_, { value }) => {
@@ -60,14 +59,16 @@ const AddProduct = () => {
         />
         <Form.Select
           control={Select}
-          label="Category"
+          label="Luokka"
           options={categories}
           value={categoryValue}
           onChange={(e, { catVal }) => {
             setCategoryValue(catVal);
           }}
         />
-        <Form.Button primary>Submit</Form.Button>
+        <Form.Button label="&nbsp;" primary>
+          Lisää tuote
+        </Form.Button>
       </Form.Group>
     </Form>
   );
