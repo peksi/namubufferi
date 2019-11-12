@@ -1,8 +1,16 @@
-import { Grid, Input, Form, Select } from "semantic-ui-react";
-import { useState } from "react";
+import {
+  Grid,
+  Input,
+  Form,
+  Select,
+  Segment,
+  Message,
+  Icon
+} from "semantic-ui-react";
+import React, { useState } from "react";
 
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 const QUERY = gql`
   query AdminLocationCategory {
@@ -19,11 +27,37 @@ const QUERY = gql`
   }
 `;
 
+const ADD_PRODUCT = gql`
+  mutation NewProduct($name: String!, $price: numeric!, $category: Int!) {
+    __typename
+    insert_product(
+      objects: {
+        Name: $name
+        Price: $price
+        Visible: true
+        Description: ""
+        category: $category
+      }
+    ) {
+      affected_rows
+      returning {
+        uuid
+        Name
+      }
+    }
+  }
+`;
+
 const AddProduct = () => {
   const { data, error, loading } = useQuery(QUERY);
+  const [addProduct, addResult] = useMutation(ADD_PRODUCT);
+  // populate categories
+  const [categories, setCategories] = useState([]);
+  // Dropdown value
   const [locationValue, setLocationValue] = useState(null);
   const [categoryValue, setCategoryValue] = useState(null);
-  const [categories, setCategories] = useState([]);
+
+  console.log("addResult", addResult);
 
   let locations = [];
 
@@ -44,9 +78,10 @@ const AddProduct = () => {
   };
 
   return (
-    <Form loading={loading}>
+    <Form loading={loading} name="addProductToDatabase">
       <Form.Group>
-        <Form.Input label="Nimi" placeholder="Coca Cola" />
+        <Form.Input name="productName" label="Nimi" placeholder="Coca Cola" />
+        <Form.Input name="productPrice" label="Hinta" placeholder="1.00" />
         <Form.Select
           control={Select}
           label="Paikka"
@@ -62,14 +97,60 @@ const AddProduct = () => {
           label="Luokka"
           options={categories}
           value={categoryValue}
-          onChange={(e, { catVal }) => {
-            setCategoryValue(catVal);
+          onChange={(e, { value }) => {
+            setCategoryValue(value);
           }}
         />
-        <Form.Button label="&nbsp;" primary>
+        <Form.Button
+          label="&nbsp;"
+          primary
+          onClick={() => {
+            const nameValue = (document.querySelector(
+              "form[name=addProductToDatabase] input[name=productName]"
+            ) as HTMLInputElement).value;
+            const priceValue = (document.querySelector(
+              "form[name=addProductToDatabase] input[name=productPrice]"
+            ) as HTMLInputElement).value;
+
+            console.log(categoryValue);
+            console.log({
+              name: nameValue,
+              price: priceValue,
+              category: categoryValue
+            });
+
+            addProduct({
+              variables: {
+                name: nameValue,
+                price: priceValue,
+                category: categoryValue
+              }
+            });
+          }}
+        >
           Lisää tuote
         </Form.Button>
       </Form.Group>
+
+      {addResult.called ? (
+        <Message
+          icon
+          positive={!addResult.loading}
+          negative={!(typeof addResult.error === "undefined")}
+        >
+          {addResult.loading ? (
+            <Icon name="circle notched" loading />
+          ) : (
+            <Icon name="check square" />
+          )}
+          <Message.Header>
+            {addResult.error ? addResult.error.message : <></>}
+            {addResult.data ? "Success!" : <></>}
+          </Message.Header>
+        </Message>
+      ) : (
+        <></>
+      )}
     </Form>
   );
 };
