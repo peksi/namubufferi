@@ -20,7 +20,7 @@ const Store = () => {
     <>
       <Container>
         <Link href="/">
-          <Button danger>Takaisin</Button>
+          <Button negative>Takaisin</Button>
         </Link>
         {/* <MarginFixer> */}
         <Menu attached tabular widths={3}>

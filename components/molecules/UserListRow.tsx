@@ -1,9 +1,18 @@
 import { Table, Header, Button, Segment, Grid, Icon } from "semantic-ui-react";
-import UserDescription from "./UserDescription";
 import { useState } from "react";
 import Link from "next/link";
+import AddMoney from "./AddMoney";
 
-const UserListRow = props => {
+export interface UserListRowProps {
+  data: {
+    name: string;
+    starting_year: string;
+    uuid: string;
+    balance: Number;
+  };
+}
+
+const UserListRow = (props: UserListRowProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,7 +25,7 @@ const UserListRow = props => {
                 <Header.Content>
                   {props.data.name}
                   <Header.Subheader>
-                    {props.data.starting_year}
+                    {props.data.starting_year} &bull; {props.data.uuid}
                   </Header.Subheader>
                 </Header.Content>
               </Header>
@@ -34,7 +43,7 @@ const UserListRow = props => {
               <Link
                 href={{
                   pathname: "/store",
-                  query: { id: props.id }
+                  query: { id: props.data.uuid }
                 }}
               >
                 <Button primary icon labelPosition="right">
@@ -46,7 +55,8 @@ const UserListRow = props => {
           </Grid.Row>
         </Grid>
       </Segment>
-      {open ? <UserDescription /> : <></>}
+
+      {open ? <AddMoney uuid={props.data.uuid} /> : <></>}
     </>
   );
 };
