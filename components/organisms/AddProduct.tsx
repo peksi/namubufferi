@@ -28,21 +28,18 @@ const QUERY = gql`
 `;
 
 const ADD_PRODUCT = gql`
-  mutation NewProduct($name: String!, $price: numeric!, $category: Int!) {
+  mutation PekkaBalance2e($money: numeric!) {
     __typename
-    insert_product(
-      objects: {
-        Name: $name
-        Price: $price
-        Visible: true
-        Description: ""
-        category: $category
-      }
+    update_user(
+      _set: { balance: $money }
+      where: { uuid: { _eq: "29cc0933-a9af-4dfc-8baa-78a8cb0fd9dd" } }
     ) {
       affected_rows
       returning {
+        balance
+        name
+        starting_year
         uuid
-        Name
       }
     }
   }
