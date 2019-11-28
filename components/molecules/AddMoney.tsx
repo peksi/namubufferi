@@ -1,11 +1,61 @@
-import { Segment, Header, Button, Input, Message } from "semantic-ui-react";
+import {
+  Segment,
+  Header,
+  Button,
+  Input,
+  Message,
+  Modal,
+  Image
+} from "semantic-ui-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@apollo/react-hooks";
+
+const SET_MONEY = gql`
+  mutation SetNewBalance($money: numeric!, $uuid: uuid!) {
+    __typename
+    update_user(_set: { balance: $money }, where: { uuid: { _eq: $uuid } }) {
+      affected_rows
+      returning {
+        balance
+        name
+        starting_year
+        uuid
+      }
+    }
+  }
+`;
+
+const HowToPayModal = () => (
+  <Modal trigger={<Button content="Info" style={{ marginLeft: "1rem" }} />}>
+    <Modal.Header>Miten lisään rahaa?</Modal.Header>
+    <Modal.Content image>
+      <Image wrapped size="medium" src="/namubuffa_mp.png" />
+      <Modal.Description>
+        <Header>Käteisellä</Header>
+
+        <p>
+          Keittiön laatikoston ylälaatikossa on lipas, johon voit sujauttaa
+          kotimaiset setelit ja kolikkorahat
+        </p>
+        <Header>Mobilepayllä</Header>
+        <p>
+          Skannaa vasemmalla näkyvä koodi sovelluksellasi tai käytä numeroa
+          &nbsp;<b>68266</b>
+        </p>
+      </Modal.Description>
+    </Modal.Content>
+  </Modal>
+);
 
 interface Props {
   uuid: string;
 }
 
 const AddMoney = (props: Props) => {
+  const [setMoney, setMoneyResult] = useMutation(SET_MONEY);
+
   return (
     <>
       <Segment secondary>
@@ -32,13 +82,22 @@ const AddMoney = (props: Props) => {
                 alert(JSON.stringify(values, null, 2));
                 setSubmitting(false);
               }, 400);
+
+              setMoney({
+                variables: {
+                  money: values.amount,
+                  uuid: props.uuid
+                }
+              });
             }}
           >
             {({ isSubmitting }) => (
               <Segment attached="bottom">
                 <Form>
                   <Field type="number" name="amount" as={Input} />
+                  <HowToPayModal />
                   <Button
+                    positive
                     style={{ marginLeft: "1rem" }}
                     type="submit"
                     disabled={isSubmitting}
