@@ -32,7 +32,6 @@ const Admin = () => {
 
   return (
     <>
-      <h1>Heipähei ja hyvää iltaa</h1>
       {JSON.stringify(data, null, 2)}
       <Grid>
         <Grid.Row>
