@@ -8,7 +8,7 @@ export interface UserListRowProps {
     name: string;
     starting_year: string;
     uuid: string;
-    balance: Number;
+    balance: number;
   };
 }
 
@@ -66,7 +66,11 @@ const UserListRow = (props: UserListRowProps) => {
       </Segment>
 
       {openSaldo ? (
-        <AddMoney uuid={props.data.uuid} closingTrigger={closingTrigger} />
+        <AddMoney
+          uuid={props.data.uuid}
+          balance={props.data.balance}
+          closingTrigger={closingTrigger}
+        />
       ) : (
         <></>
       )}

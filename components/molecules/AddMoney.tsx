@@ -14,9 +14,16 @@ import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 
 const SET_MONEY = gql`
-  mutation SetNewBalance($money: numeric!, $uuid: uuid!) {
+  mutation SetNewBalance(
+    $money: numeric!
+    $uuid: uuid!
+    $newBalance: numeric!
+  ) {
     __typename
-    update_user(_set: { balance: $money }, where: { uuid: { _eq: $uuid } }) {
+    update_user(
+      _set: { balance: $newBalance }
+      where: { uuid: { _eq: $uuid } }
+    ) {
       affected_rows
       returning {
         balance
@@ -24,6 +31,9 @@ const SET_MONEY = gql`
         starting_year
         uuid
       }
+    }
+    insert_deposit(objects: { user: $uuid, amount: $money, type: "" }) {
+      affected_rows
     }
   }
 `;
@@ -52,6 +62,7 @@ const HowToPayModal = () => (
 
 interface Props {
   uuid: string;
+  balance: number;
   closingTrigger: Function;
 }
 
@@ -88,6 +99,10 @@ const AddMoney = (props: Props) => {
               setMoney({
                 variables: {
                   money: values.amount,
+                  newBalance:
+                    Math.round(
+                      (parseFloat(values.amount) + props.balance) * 100
+                    ) / 100,
                   uuid: props.uuid
                 }
               });
