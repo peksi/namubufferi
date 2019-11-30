@@ -8,10 +8,18 @@ import {
 } from "semantic-ui-react";
 import { useState } from "react";
 
-const StoreItemRow = () => {
+interface Props {
+  product: {
+    Name: string;
+    Price: number;
+    uuid: string;
+  };
+}
+
+const StoreItemRow = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState(1);
-  const [price] = useState(1.23);
+  const price = props.product.Price;
   return (
     <>
       <Segment attached>
@@ -20,8 +28,8 @@ const StoreItemRow = () => {
             <Grid.Column width={4}>
               <Header as="h4" image>
                 <Header.Content>
-                  Coca Cola
-                  <Header.Subheader>Uuden ajan tärpättiä</Header.Subheader>
+                  {props.product.Name}
+                  {/* <Header.Subheader>Uuden ajan tärpättiä</Header.Subheader> */}
                 </Header.Content>
               </Header>
             </Grid.Column>
