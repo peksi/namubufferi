@@ -5,7 +5,8 @@ import {
   Input,
   Message,
   Modal,
-  Image
+  Image,
+  Icon
 } from "semantic-ui-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -51,10 +52,16 @@ const HowToPayModal = () => (
 
 interface Props {
   uuid: string;
+  closingTrigger: Function;
 }
 
 const AddMoney = (props: Props) => {
   const [setMoney, setMoneyResult] = useMutation(SET_MONEY);
+
+  if (setMoneyResult.data) {
+    // when done, trigger the function on parent element
+    props.closingTrigger();
+  }
 
   return (
     <>
@@ -78,11 +85,6 @@ const AddMoney = (props: Props) => {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
-
               setMoney({
                 variables: {
                   money: values.amount,
@@ -113,6 +115,25 @@ const AddMoney = (props: Props) => {
               </Segment>
             )}
           </Formik>
+          {setMoneyResult.called ? (
+            <Message
+              icon
+              positive={!setMoneyResult.loading}
+              negative={!(typeof setMoneyResult.error === "undefined")}
+            >
+              {setMoneyResult.loading ? (
+                <Icon name="circle notched" loading />
+              ) : (
+                <Icon name="check square" />
+              )}
+              <Message.Header>
+                {setMoneyResult.error ? setMoneyResult.error.message : <></>}
+                {setMoneyResult.data ? "Success!" : <></>}
+              </Message.Header>
+            </Message>
+          ) : (
+            <></>
+          )}
         </Segment>
         <Segment>
           <Header as="h4" attached="top" block>

@@ -13,7 +13,14 @@ export interface UserListRowProps {
 }
 
 const UserListRow = (props: UserListRowProps) => {
-  const [open, setOpen] = useState(false);
+  const [openHistory, setOpenHistory] = useState(false);
+  const [openSaldo, setOpenSaldo] = useState(false);
+
+  const closingTrigger = () => {
+    setTimeout(() => {
+      setOpenSaldo(false);
+    }, 500);
+  };
 
   return (
     <>
@@ -34,10 +41,12 @@ const UserListRow = (props: UserListRowProps) => {
               {props.data.balance}
             </Grid.Column>
             <Grid.Column width={2}>
-              <Button onClick={() => setOpen(!open)}>Historia</Button>
+              <Button onClick={() => setOpenHistory(!openHistory)}>
+                Historia
+              </Button>
             </Grid.Column>
             <Grid.Column width={2}>
-              <Button onClick={() => setOpen(!open)}>Saldo</Button>
+              <Button onClick={() => setOpenSaldo(!openSaldo)}>Saldo</Button>
             </Grid.Column>
             <Grid.Column width={3}>
               <Link
@@ -56,7 +65,11 @@ const UserListRow = (props: UserListRowProps) => {
         </Grid>
       </Segment>
 
-      {open ? <AddMoney uuid={props.data.uuid} /> : <></>}
+      {openSaldo ? (
+        <AddMoney uuid={props.data.uuid} closingTrigger={closingTrigger} />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
