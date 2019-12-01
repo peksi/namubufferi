@@ -38,7 +38,7 @@ const UserListRow = (props: UserListRowProps) => {
               </Header>
             </Grid.Column>
             <Grid.Column width={2} style={{ lineHeight: "36px" }}>
-              {props.data.balance}
+              {props.data.balance.toFixed(2)} €
             </Grid.Column>
             <Grid.Column width={2}>
               <Button onClick={() => setOpenHistory(!openHistory)}>
