@@ -56,7 +56,7 @@ const UserList = () => {
     <Container>
       <Segment.Group>
         <Header as="h4" attached="top" block>
-          Select user
+          Valitse käyttäjä
         </Header>
         {data.user.map(data => {
           return <UserListRow key={data.uuid} data={data} />;
