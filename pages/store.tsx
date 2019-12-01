@@ -64,8 +64,6 @@ const Store = () => {
     );
   }
 
-  console.log(data.location.find(i => i.id == tab));
-
   return (
     <>
       <Container>
@@ -91,16 +89,22 @@ const Store = () => {
 
         {data.location
           .find(i => i.id == tab)
-          .categories.map(i => {
+          .categories.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          })
+          .map(i => {
             return (
               <Segment attached>
                 <Header as="h4" attached="top" block>
                   {i.name}
                 </Header>
-                {i.products.map(j => {
-                  console.log(j);
-                  return <StoreItemRow product={j} />;
-                })}
+                {i.products
+                  .sort((a, b) => {
+                    return a.Name.localeCompare(b.Name);
+                  })
+                  .map(j => {
+                    return <StoreItemRow product={j} />;
+                  })}
               </Segment>
             );
           })}
