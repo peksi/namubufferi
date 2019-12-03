@@ -7,30 +7,11 @@ import {
   Message,
   Icon
 } from "semantic-ui-react";
+import useAxios from "axios-hooks";
 import UserListRow from "../molecules/UserListRow";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-
-const USERS = gql`
-  query Users {
-    __typename
-    user {
-      name
-      starting_year
-      balance
-      uuid
-      transactions(order_by: { timestamp: asc }, limit: 5) {
-        product
-        amount
-        sum
-        timestamp
-      }
-    }
-  }
-`;
 
 const UserList = () => {
-  const { data, error, loading } = useQuery(USERS);
+  const [{ data, loading, error }, refetch] = useAxios("/api/getUsers");
   if (loading) {
     return (
       <Container>
@@ -50,7 +31,6 @@ const UserList = () => {
       </Container>
     );
   }
-  console.log(data.user);
 
   return (
     <Container>
@@ -58,7 +38,7 @@ const UserList = () => {
         <Header as="h4" attached="top" block>
           Valitse käyttäjä
         </Header>
-        {data.user.map(data => {
+        {data.data.user.map(data => {
           return <UserListRow key={data.uuid} data={data} />;
         })}
       </Segment.Group>

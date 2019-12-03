@@ -9,34 +9,7 @@ import {
   Icon
 } from "semantic-ui-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
-import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-
-const SET_MONEY = gql`
-  mutation SetNewBalance(
-    $money: numeric!
-    $uuid: uuid!
-    $newBalance: numeric!
-  ) {
-    __typename
-    update_user(
-      _set: { balance: $newBalance }
-      where: { uuid: { _eq: $uuid } }
-    ) {
-      affected_rows
-      returning {
-        balance
-        name
-        starting_year
-        uuid
-      }
-    }
-    insert_deposit(objects: { user: $uuid, amount: $money, type: "" }) {
-      affected_rows
-    }
-  }
-`;
+import useAxios from "axios-hooks";
 
 const HowToPayModal = () => (
   <Modal trigger={<Button content="Info" style={{ marginLeft: "1rem" }} />}>
@@ -67,12 +40,18 @@ interface Props {
 }
 
 const AddMoney = (props: Props) => {
-  const [setMoney, setMoneyResult] = useMutation(SET_MONEY);
+  // const [{ data, loading, error }, executeAddMoney] = useAxios(
+  //   {
+  //     url: "/api/addMoney",
+  //     method: "POST"
+  //   },
+  //   { manual: true }
+  // );
 
-  if (setMoneyResult.data) {
-    // when done, trigger the function on parent element
-    props.closingTrigger();
-  }
+  // if (data) {
+  //   // when done, trigger the function on parent element
+  //   props.closingTrigger();
+  // }
 
   return (
     <>
@@ -96,16 +75,26 @@ const AddMoney = (props: Props) => {
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
-              setMoney({
-                variables: {
-                  money: values.amount,
-                  newBalance:
-                    Math.round(
-                      (parseFloat(values.amount) + props.balance) * 100
-                    ) / 100,
-                  uuid: props.uuid
-                }
-              });
+              // axios
+              //   .post("/api/addMoney", {
+              //     amount: values.amount,
+              //     balance: 1,
+              //     // Math.round(
+              //     //   (parseFloat(values.amount) + props.balance) * 100
+              //     // ) / 100,
+              //     uuid: props.uuid
+              //   })
+              //   .then(v => console.log(v));
+              // executeAddMoney({
+              //   data: {
+              //     amount: values.amount,
+              //     balance:
+              //       Math.round(
+              //         (parseFloat(values.amount) + props.balance) * 100
+              //       ) / 100,
+              //     uuid: props.uuid
+              //   }
+              // }).catch(err => console.log(err));
             }}
           >
             {({ isSubmitting }) => (
@@ -130,7 +119,7 @@ const AddMoney = (props: Props) => {
               </Segment>
             )}
           </Formik>
-          {setMoneyResult.called ? (
+          {/* {data.data ? (
             <Message
               icon
               positive={!setMoneyResult.loading}
@@ -148,7 +137,7 @@ const AddMoney = (props: Props) => {
             </Message>
           ) : (
             <></>
-          )}
+          )} */}
         </Segment>
         <Segment>
           <Header as="h4" attached="top" block>

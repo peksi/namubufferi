@@ -46,8 +46,8 @@ const ADD_PRODUCT = gql`
 `;
 
 const AddProduct = () => {
-  const { data, error, loading } = useQuery(QUERY);
-  const [addProduct, addResult] = useMutation(ADD_PRODUCT);
+  // const { data, error, loading } = useQuery(QUERY);
+  // const [addProduct, addResult] = useMutation(ADD_PRODUCT);
   // populate categories
   const [categories, setCategories] = useState([]);
   // Dropdown value
@@ -75,7 +75,8 @@ const AddProduct = () => {
   };
 
   return (
-    <Form loading={loading} name="addProductToDatabase">
+    <Form name="addProductToDatabase">
+      {/* <Form loading={loading} name="addProductToDatabase"> */}
       <Form.Group>
         <Form.Input name="productName" label="Nimi" placeholder="Coca Cola" />
         <Form.Input name="productPrice" label="Hinta" placeholder="1.00" />

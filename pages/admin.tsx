@@ -26,22 +26,20 @@ const QUERY = gql`
 `;
 
 const Admin = () => {
-  const { data, error, loading } = useQuery(QUERY);
-  if (loading) return <h1>Loading</h1>;
-  if (error) return <h1>Error: {error.message}</h1>;
+  // const { data, error, loading } = useQuery(QUERY);
+  // if (loading) return <h1>Loading</h1>;
+  // if (error) return <h1>Error: {error.message}</h1>;
 
   return (
     <>
-      {JSON.stringify(data, null, 2)}
+      {/* {JSON.stringify(data, null, 2)} */}
       <Grid>
         <Grid.Row>
           <Grid.Column width={"8"}>Lokaatiot</Grid.Column>
           <Grid.Column width={"8"}>Kategoriat</Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={"16"}>
-            <AddProduct />
-          </Grid.Column>
+          <Grid.Column width={"16"}>{/* <AddProduct /> */}</Grid.Column>
         </Grid.Row>
       </Grid>
     </>

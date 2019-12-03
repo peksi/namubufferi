@@ -4,19 +4,12 @@ const path = require("path");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  webpack: config => {
-    config.plugins = config.plugins || [];
-
-    config.plugins = [
-      ...config.plugins,
-
-      // Read the .env file
-      new Dotenv({
-        path: path.join(__dirname, ".env"),
-        systemvars: true
-      })
-    ];
-
-    return config;
+  serverRuntimeConfig: {
+    // Will only be available on the server side
+    hasura_key: process.env.HASURA_ADMIN_SECRET
+  },
+  publicRuntimeConfig: {
+    // Will be available on both server and client
+    api_url: process.env.API_URL
   }
 };

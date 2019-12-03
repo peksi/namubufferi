@@ -2,39 +2,15 @@ import {
   Menu,
   Container,
   Segment,
-  Table,
   Header,
   Button,
   Message
 } from "semantic-ui-react";
-import { jsx, css } from "@emotion/core";
 import styled from "@emotion/styled";
 import StoreItemRow from "../components/molecules/StoreItemRow";
 import Link from "next/link";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 import { useState } from "react";
-
-const PRODUCTS = gql`
-  query HajeTuotteet {
-    __typename
-    location {
-      id
-      name
-      visible
-      categories {
-        id
-        location
-        name
-        products {
-          Name
-          Price
-          uuid
-        }
-      }
-    }
-  }
-`;
+import useAxios from "axios-hooks";
 
 const MarginFixer = styled.div`
   margin-bottom: -2px;
@@ -42,7 +18,7 @@ const MarginFixer = styled.div`
 
 const Store = () => {
   const [tab, setTab] = useState(1);
-  const { data, error, loading } = useQuery(PRODUCTS);
+  const [{ data, loading, error }, refetch] = useAxios("/api/store");
 
   if (loading) {
     return (
@@ -68,11 +44,13 @@ const Store = () => {
     <>
       <Container>
         <Link href="/">
-          <Button negative>Takaisin</Button>
+          <Button negative style={{ marginBottom: "1rem" }}>
+            Takaisin
+          </Button>
         </Link>
         <MarginFixer>
-          <Menu attached tabular widths={data.location.length}>
-            {data.location.map(i => {
+          <Menu attached tabular widths={data.data.location.length}>
+            {data.data.location.map(i => {
               return (
                 <Menu.Item
                   onClick={() => setTab(i.id)}
@@ -87,14 +65,14 @@ const Store = () => {
           </Menu>
         </MarginFixer>
 
-        {data.location
+        {data.data.location
           .find(i => i.id == tab)
           .categories.sort((a, b) => {
             return a.name.localeCompare(b.name);
           })
           .map(i => {
             return (
-              <Segment attached>
+              <Segment key={i.id} attached>
                 <Header as="h4" attached="top" block>
                   {i.name}
                 </Header>
@@ -103,7 +81,7 @@ const Store = () => {
                     return a.Name.localeCompare(b.Name);
                   })
                   .map(j => {
-                    return <StoreItemRow product={j} />;
+                    return <StoreItemRow key={j.uuid} product={j} />;
                   })}
               </Segment>
             );
