@@ -7,11 +7,12 @@ import {
   Message,
   Icon
 } from "semantic-ui-react";
-import useAxios from "axios-hooks";
 import UserListRow from "../molecules/UserListRow";
+import useFetch from "use-http";
 
 const UserList = () => {
-  const [{ data, loading, error }, refetch] = useAxios("/api/getUsers");
+  const { loading, error, data } = useFetch("/api/getUsers", { data: [] }, []);
+
   if (loading) {
     return (
       <Container>

@@ -14,7 +14,7 @@ export const client = new ApolloClient({
   link: createHttpLink({
     uri: "https://athene-namubufferi.herokuapp.com/v1/graphql",
     headers: {
-      "X-Hasura-Admin-Secret": process.env.HASURA_ADMIN_SECRET
+      "X-Hasura-Admin-Secret": serverRuntimeConfig.hasura_key
     },
     fetch: fetch
   }),

@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 import StoreItemRow from "../components/molecules/StoreItemRow";
 import Link from "next/link";
 import { useState } from "react";
-import useAxios from "axios-hooks";
+import useFetch from "use-http";
 
 const MarginFixer = styled.div`
   margin-bottom: -2px;
@@ -18,7 +18,7 @@ const MarginFixer = styled.div`
 
 const Store = () => {
   const [tab, setTab] = useState(1);
-  const [{ data, loading, error }, refetch] = useAxios("/api/store");
+  const { loading, error, data } = useFetch("/api/store", { data: [] }, []);
 
   if (loading) {
     return (

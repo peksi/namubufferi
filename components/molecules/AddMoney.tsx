@@ -9,7 +9,8 @@ import {
   Icon
 } from "semantic-ui-react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import useAxios from "axios-hooks";
+import useFetch from "use-http";
+import { useState } from "react";
 
 const HowToPayModal = () => (
   <Modal trigger={<Button content="Info" style={{ marginLeft: "1rem" }} />}>
@@ -40,18 +41,12 @@ interface Props {
 }
 
 const AddMoney = (props: Props) => {
-  // const [{ data, loading, error }, executeAddMoney] = useAxios(
-  //   {
-  //     url: "/api/addMoney",
-  //     method: "POST"
-  //   },
-  //   { manual: true }
-  // );
+  const [request, response] = useFetch("/api");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // if (data) {
-  //   // when done, trigger the function on parent element
-  //   props.closingTrigger();
-  // }
+  if (response.ok) {
+    props.closingTrigger();
+  }
 
   return (
     <>
@@ -74,70 +69,66 @@ const AddMoney = (props: Props) => {
               }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              // axios
-              //   .post("/api/addMoney", {
-              //     amount: values.amount,
-              //     balance: 1,
-              //     // Math.round(
-              //     //   (parseFloat(values.amount) + props.balance) * 100
-              //     // ) / 100,
-              //     uuid: props.uuid
-              //   })
-              //   .then(v => console.log(v));
-              // executeAddMoney({
-              //   data: {
-              //     amount: values.amount,
-              //     balance:
-              //       Math.round(
-              //         (parseFloat(values.amount) + props.balance) * 100
-              //       ) / 100,
-              //     uuid: props.uuid
-              //   }
-              // }).catch(err => console.log(err));
+            onSubmit={values => {
+              setIsSubmitting(true);
+
+              request
+                .post("/addMoney", {
+                  amount: values.amount,
+                  balance:
+                    Math.round(
+                      (parseFloat(values.amount) + props.balance) * 100
+                    ) / 100,
+                  uuid: props.uuid
+                })
+                .then(() => {
+                  console.log("unset setSubmitting");
+                });
             }}
           >
-            {({ isSubmitting }) => (
-              <Segment attached="bottom">
-                <Form>
-                  <Field type="number" name="amount" as={Input} />
-                  <HowToPayModal />
-                  <Button
-                    positive
-                    style={{ marginLeft: "1rem" }}
-                    type="submit"
-                    disabled={isSubmitting}
-                    content="Lisää rahaa"
-                    icon="plus"
-                    labelPosition="right"
-                  />
-                  <ErrorMessage
-                    name="amount"
-                    render={msg => <Message error>{msg}</Message>}
-                  />
-                </Form>
-              </Segment>
-            )}
+            {() => {
+              return (
+                <Segment attached="bottom">
+                  <Form>
+                    <Field type="number" name="amount" as={Input} />
+                    <HowToPayModal />
+                    <Button
+                      positive
+                      style={{ marginLeft: "1rem" }}
+                      type="submit"
+                      disabled={isSubmitting}
+                      content="Lisää rahaa"
+                      icon="plus"
+                      labelPosition="right"
+                    />
+                    <ErrorMessage
+                      name="amount"
+                      render={msg => <Message error>{msg}</Message>}
+                    />
+                  </Form>
+                </Segment>
+              );
+            }}
           </Formik>
-          {/* {data.data ? (
+          {response.ok ? (
             <Message
               icon
-              positive={!setMoneyResult.loading}
-              negative={!(typeof setMoneyResult.error === "undefined")}
+              positive={!request.loading}
+              negative={!(typeof request.error === "undefined")}
             >
-              {setMoneyResult.loading ? (
+              {request.loading ? (
                 <Icon name="circle notched" loading />
               ) : (
                 <Icon name="check square" />
               )}
               <Message.Header>
-                {setMoneyResult.error ? setMoneyResult.error.message : <></>}
-                {setMoneyResult.data ? "Success!" : <></>}
+                {request.error ? request.error.message : <></>}
+                {response.data ? "Success!" : <></>}
               </Message.Header>
             </Message>
           ) : (
             <></>
-          )} */}
+          )}
         </Segment>
         <Segment>
           <Header as="h4" attached="top" block>

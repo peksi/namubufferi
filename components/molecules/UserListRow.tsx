@@ -19,7 +19,7 @@ const UserListRow = (props: UserListRowProps) => {
   const closingTrigger = () => {
     setTimeout(() => {
       setOpenSaldo(false);
-    }, 500);
+    }, 2000);
   };
 
   return (
