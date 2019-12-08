@@ -4,7 +4,8 @@ import {
   Segment,
   Header,
   Button,
-  Message
+  Message,
+  Icon
 } from "semantic-ui-react";
 import styled from "@emotion/styled";
 import StoreItemRow from "../components/molecules/StoreItemRow";
@@ -22,11 +23,19 @@ const Store = () => {
 
   if (loading) {
     return (
-      <Container>
-        <Link href="/">
-          <Button negative>Takaisin</Button>
-        </Link>
-      </Container>
+      <>
+        <Container style={{ marginBottom: "2rem" }}>
+          <Link href="/">
+            <Button negative>Takaisin</Button>
+          </Link>
+        </Container>
+        <Container>
+          <Message icon>
+            <Icon name="circle notched" loading />
+            <Message.Header>Ladataan kauppaa.</Message.Header>
+          </Message>
+        </Container>
+      </>
     );
   }
 
