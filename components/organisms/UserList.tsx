@@ -42,9 +42,13 @@ const UserList = () => {
         <Header as="h4" attached="top" block>
           Valitse käyttäjä
         </Header>
-        {data.data.user.map(data => {
-          return <UserListRow key={data.uuid} data={data} />;
-        })}
+        {data.data.user
+          .sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          })
+          .map(data => {
+            return <UserListRow key={data.uuid} data={data} />;
+          })}
       </Segment.Group>
     </Container>
   );
