@@ -18,7 +18,10 @@ const UserList = () => {
       <Container>
         <Message icon>
           <Icon name="circle notched" loading />
-          <Message.Header>Loading</Message.Header>
+          <Message.Header>
+            Ladataan. Jos olet päivän ensimmäinen käyttäjä, tämä kestää yleensä
+            hetken.
+          </Message.Header>
         </Message>
       </Container>
     );
