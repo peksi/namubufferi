@@ -123,7 +123,7 @@ const AddMoney = (props: Props) => {
               )}
               <Message.Header>
                 {request.error ? request.error.message : <></>}
-                {response.data ? "Success!" : <></>}
+                {response.data ? "Rahan lisäys onnistui!" : <></>}
               </Message.Header>
             </Message>
           ) : (
