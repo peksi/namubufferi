@@ -32,7 +32,7 @@ const UserListRow = (props: UserListRowProps) => {
                 <Header.Content>
                   {props.data.name}
                   <Header.Subheader>
-                    {props.data.starting_year} &bull; {props.data.uuid}
+                    {props.data.starting_year}
                   </Header.Subheader>
                 </Header.Content>
               </Header>
