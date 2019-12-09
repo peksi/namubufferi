@@ -12,6 +12,28 @@ import UserListRow from "../molecules/UserListRow";
 import useFetch from "use-http";
 import { useState, useEffect, useRef } from "react";
 
+const Logo = () => {
+  return (
+    <>
+      <img
+        src="/logo.png"
+        alt="Logo"
+        style={{ width: "300px", margin: "auto", display: "block" }}
+      />
+      <div
+        style={{
+          textAlign: "center",
+          marginTop: "-1rem",
+          fontSize: "3rem",
+          paddingBottom: "2rem"
+        }}
+      >
+        Namubuffa
+      </div>
+    </>
+  );
+};
+
 const UserList = () => {
   const [request, response] = useFetch("/api");
   const [users, setUsers] = useState<any>([]);
@@ -36,6 +58,7 @@ const UserList = () => {
   if (request.loading) {
     return (
       <Container>
+        <Logo />
         <Message icon>
           <Icon name="circle notched" loading />
           <Message.Header>
@@ -49,6 +72,7 @@ const UserList = () => {
   if (request.error) {
     return (
       <Container>
+        <Logo />
         <Message icon negative>
           <Message.Header>Error: {request.error.message}</Message.Header>
         </Message>
@@ -58,6 +82,7 @@ const UserList = () => {
 
   return (
     <Container>
+      <Logo />
       <Segment.Group>
         <Header as="h4" attached="top" block>
           Valitse käyttäjä
