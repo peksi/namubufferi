@@ -13,7 +13,6 @@ import useFetch from "use-http";
 import { useState, useEffect, useRef } from "react";
 
 const UserList = () => {
-  // const { loading, error, data } = useFetch("/api/getUsers", { data: [] }, []);
   const [request, response] = useFetch("/api");
   const [users, setUsers] = useState<any>([]);
   const [initialUsers, setInitialUsers] = useState<any>([]);
@@ -88,7 +87,13 @@ const UserList = () => {
               return a.name.localeCompare(b.name);
             })
             .map(data => {
-              return <UserListRow key={data.uuid} data={data} />;
+              return (
+                <UserListRow
+                  key={data.uuid}
+                  data={data}
+                  refresh={initializeUsers}
+                />
+              );
             })
         ) : (
           <></>

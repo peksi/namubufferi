@@ -10,6 +10,7 @@ export interface UserListRowProps {
     uuid: string;
     balance: number;
   };
+  refresh: Function;
 }
 
 const UserListRow = (props: UserListRowProps) => {
@@ -18,7 +19,8 @@ const UserListRow = (props: UserListRowProps) => {
 
   const closingTrigger = () => {
     setTimeout(() => {
-      setOpenSaldo(false);
+      // setOpenSaldo(false);
+      props.refresh(); // polls all users again to show new saldos
     }, 2000);
   };
 
