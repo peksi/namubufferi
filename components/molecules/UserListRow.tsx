@@ -2,6 +2,7 @@ import { Table, Header, Button, Segment, Grid, Icon } from "semantic-ui-react";
 import { useState } from "react";
 import Link from "next/link";
 import AddMoney from "./AddMoney";
+import { useStoreActions } from "../../store";
 
 export interface UserListRowProps {
   data: {
@@ -16,6 +17,7 @@ export interface UserListRowProps {
 const UserListRow = (props: UserListRowProps) => {
   const [openHistory, setOpenHistory] = useState(false);
   const [openSaldo, setOpenSaldo] = useState(false);
+  const updateUser = useStoreActions(actions => actions.currentUser.updateUser);
 
   const closingTrigger = () => {
     setTimeout(() => {
@@ -53,11 +55,20 @@ const UserListRow = (props: UserListRowProps) => {
             <Grid.Column width={3}>
               <Link
                 href={{
-                  pathname: "/store",
-                  query: { id: props.data.uuid }
+                  pathname: "/store"
                 }}
               >
-                <Button primary icon labelPosition="right">
+                <Button
+                  primary
+                  icon
+                  labelPosition="right"
+                  onClick={() => {
+                    updateUser({
+                      uuid: props.data.uuid,
+                      balance: props.data.balance
+                    });
+                  }}
+                >
                   Ostoksille
                   <Icon name="food" />
                 </Button>

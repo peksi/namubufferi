@@ -1,8 +1,11 @@
-import { createStore, action, Action } from "easy-peasy";
+import { createStore, action, Action, createTypedHooks } from "easy-peasy";
 
 interface UserModel {
-  currentUser: object;
-  updateUser: Action<UserModel, string>;
+  currentUser: {
+    uuid: string;
+    balance: number;
+  };
+  updateUser: Action<UserModel, { uuid: string; balance: number }>;
 }
 
 interface StoreModel {
@@ -11,8 +14,8 @@ interface StoreModel {
 
 const currentUser: UserModel = {
   currentUser: {
-    UUID: "",
-    Balance: 0
+    uuid: "",
+    balance: 0
   },
   updateUser: action((state, payload) => {
     state.currentUser = payload;
@@ -24,5 +27,12 @@ const storeModel: StoreModel = {
 };
 
 const store = createStore(storeModel);
+
+const typedHooks = createTypedHooks<StoreModel>();
+
+// 👇 export the typed hooks
+export const useStoreActions = typedHooks.useStoreActions;
+export const useStoreDispatch = typedHooks.useStoreDispatch;
+export const useStoreState = typedHooks.useStoreState;
 
 export default store;

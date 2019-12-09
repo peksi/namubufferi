@@ -4,9 +4,14 @@ import {
   Grid,
   Button,
   Input,
-  Select
+  Select,
+  Message,
+  Icon
 } from "semantic-ui-react";
 import { useState } from "react";
+import { useStoreState } from "../../store";
+import useFetch from "use-http";
+import Router from "next/router";
 
 interface Props {
   product: {
@@ -19,7 +24,16 @@ interface Props {
 const StoreItemRow = (props: Props) => {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState(1);
+  const currentUser = useStoreState(state => state.currentUser.currentUser);
   const price = props.product.Price;
+  const [request, response] = useFetch("/api");
+
+  if (response.ok) {
+    setTimeout(() => {
+      Router.push("/");
+    }, 3000);
+  }
+
   return (
     <>
       <Segment attached>
@@ -79,11 +93,46 @@ const StoreItemRow = (props: Props) => {
                 icon="shopping cart"
                 labelPosition="right"
                 primary
+                onClick={() => {
+                  request.post("/purchase", {
+                    sum: price * amount,
+                    amount: amount,
+                    newBalance: currentUser.balance - price * amount,
+                    user_uuid: currentUser.uuid,
+                    product_uuid: props.product.uuid
+                  });
+                }}
               />
             </Grid.Column>
           </Grid.Row>
         </Grid>
       </Segment>
+      {response.ok || request.loading ? (
+        <Message
+          icon
+          positive={!request.loading}
+          negative={!(typeof request.error === "undefined")}
+        >
+          {request.loading ? (
+            <Icon name="circle notched" loading />
+          ) : (
+            <Icon name="check square" />
+          )}
+          <Message.Header>
+            {request.error ? request.error.message : <></>}
+            {response.data ? (
+              "Ostos onnistui! Rahaa jäljellä " +
+              response.data.data.update_user.returning[0].balance +
+              "€ käyttäjällä " +
+              response.data.data.update_user.returning[0].name
+            ) : (
+              <></>
+            )}
+          </Message.Header>
+        </Message>
+      ) : (
+        <></>
+      )}
       {open ? (
         <Segment attached secondary>
           Ilmoita namusetädille että on loppu
