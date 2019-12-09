@@ -36,6 +36,10 @@ class MyApp extends App {
         </Head>
         <Padding>
           <Component {...pageProps} />
+          <p style={{ textAlign: "center", marginTop: "1rem" }}>
+            Hyvää 20v syntymäpäivää Athene. <br />
+            T. DADA ry ja killan oma Peksi
+          </p>
         </Padding>
       </>
     );
