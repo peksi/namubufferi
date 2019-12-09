@@ -18,6 +18,10 @@ export const client = new ApolloClient({
     },
     fetch: fetch
   }),
-
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    query: {
+      fetchPolicy: "no-cache"
+    }
+  }
 });
