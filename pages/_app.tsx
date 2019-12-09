@@ -5,6 +5,8 @@ import { Global, css } from "@emotion/core";
 import styled from "@emotion/styled";
 import { Header } from "semantic-ui-react";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { StoreProvider } from "easy-peasy";
+import store from "../store";
 
 const Padding = styled.div`
   padding: 3rem;
@@ -27,20 +29,22 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <>
-        <Head>
-          <title>Namubufferi</title>
-          <link
-            rel="stylesheet"
-            href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
-          />
-        </Head>
-        <Padding>
-          <Component {...pageProps} />
-          <p style={{ textAlign: "center", marginTop: "1rem" }}>
-            Hyvää 20v syntymäpäivää Athene. <br />
-            T. DADA ry ja killan oma Peksi
-          </p>
-        </Padding>
+        <StoreProvider store={store}>
+          <Head>
+            <title>Namubufferi</title>
+            <link
+              rel="stylesheet"
+              href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+            />
+          </Head>
+          <Padding>
+            <Component {...pageProps} />
+            <p style={{ textAlign: "center", marginTop: "1rem" }}>
+              Hyvää 20v syntymäpäivää Athene. <br />
+              T. DADA ry ja killan oma Peksi
+            </p>
+          </Padding>
+        </StoreProvider>
       </>
     );
   }
