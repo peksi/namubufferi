@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import AddProduct from "../components/organisms/AddProduct";
 
 const QUERY = gql`
   query GetShopAssortment {
