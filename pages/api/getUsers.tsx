@@ -24,8 +24,7 @@ export default (req, res) => {
     .query({ query: USERS })
     .then(result => {
       res.setHeader("Content-Type", "application/json");
-      res.statusCode = 200;
-      res.end(JSON.stringify(result));
+      return res.status(200).end(JSON.stringify(result));
     })
     .catch(err => console.log(err));
 };
