@@ -1,0 +1,6 @@
+{
+  "env": {
+    "HASURA_ADMIN_SECRET": "@hasura_admin_secret",
+    "API_URL": "@api_url"
+  }
+}
