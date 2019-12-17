@@ -31,9 +31,9 @@ const UserListRow = (props: UserListRowProps) => {
       <Segment>
         <Grid>
           <Grid.Row>
-            <Grid.Column width={7}>
-              <Header as="h4" image>
-                <Header.Content>
+            <Grid.Column width={6}>
+              <Header>
+                <Header.Content as="h2">
                   {props.data.name}
                   <Header.Subheader>
                     {props.data.starting_year}
@@ -41,24 +41,28 @@ const UserListRow = (props: UserListRowProps) => {
                 </Header.Content>
               </Header>
             </Grid.Column>
-            <Grid.Column width={2} style={{ lineHeight: "36px" }}>
-              {props.data.balance.toFixed(2)} €
-            </Grid.Column>
             <Grid.Column width={2}>
-              <Button onClick={() => setOpenHistory(!openHistory)}>
+              <Header
+                as="h3"
+                style={{ fontWeight: "normal", lineHeight: "48px" }}
+              >
+                {props.data.balance.toFixed(2)} €
+              </Header>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Button size="big" onClick={() => setOpenHistory(!openHistory)}>
                 Historia
               </Button>
-            </Grid.Column>
-            <Grid.Column width={2}>
-              <Button onClick={() => setOpenSaldo(!openSaldo)}>Saldo</Button>
-            </Grid.Column>
-            <Grid.Column width={3}>
+              <Button size="big" onClick={() => setOpenSaldo(!openSaldo)}>
+                Saldo
+              </Button>
               <Link
                 href={{
                   pathname: "/store"
                 }}
               >
                 <Button
+                  size="big"
                   primary
                   icon
                   labelPosition="right"
