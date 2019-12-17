@@ -11,6 +11,13 @@ import {
 import UserListRow from "../molecules/UserListRow";
 import useFetch from "use-http";
 import { useState, useEffect, useRef } from "react";
+import styled from "@emotion/styled";
+
+const SearchLabel = styled.span`
+  margin-right: 1rem;
+  font-size: 18px;
+  color: #888;
+`;
 
 const Logo = () => {
   return (
@@ -92,10 +99,12 @@ const UserList = () => {
           Valitse käyttäjä
         </Header>
         <Segment>
+          <SearchLabel>Hae nimellä</SearchLabel>
           <Input
+            size="big"
             icon="users"
             iconPosition="left"
-            placeholder="Filtteröi kiltalaisista"
+            placeholder="Markus"
             onChange={event => {
               const filterString = event.target.value;
 
