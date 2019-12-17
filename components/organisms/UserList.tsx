@@ -15,20 +15,24 @@ import { useState, useEffect, useRef } from "react";
 const Logo = () => {
   return (
     <>
-      <img
-        src="/logo.png"
-        alt="Logo"
-        style={{ width: "300px", margin: "auto", display: "block" }}
-      />
       <div
         style={{
           textAlign: "center",
           marginTop: "-1rem",
           fontSize: "3rem",
-          paddingBottom: "2rem"
+          paddingBottom: "1rem",
+          display: "flex",
+          flexDirection: "row"
         }}
       >
-        Namubuffa
+        <div>
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{ width: "50px", margin: "auto", display: "block" }}
+          />
+        </div>
+        <div style={{ marginTop: "1rem", marginLeft: "1rem" }}>Namubuffa</div>
       </div>
     </>
   );
