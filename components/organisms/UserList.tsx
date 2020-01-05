@@ -113,6 +113,9 @@ const UserList = () => {
                   user =>
                     user.name
                       .toLowerCase()
+                      .indexOf(filterString.toLowerCase()) > -1 ||
+                    user.starting_year
+                      .toLowerCase()
                       .indexOf(filterString.toLowerCase()) > -1
                 )
               );
