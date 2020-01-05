@@ -48,7 +48,7 @@ const StoreItemRow = (props: Props) => {
               </Header>
             </Grid.Column>
             <Grid.Column width={3}>
-              <Button.Group>
+              <Button.Group style={{ userSelect: "none" }}>
                 <Button
                   primary
                   onClick={() => (amount > 0 ? setAmount(amount - 1) : null)}
